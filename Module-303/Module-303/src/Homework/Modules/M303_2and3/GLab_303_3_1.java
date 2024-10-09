@@ -1,4 +1,4 @@
-package Homework.M303_2;
+package Homework.Modules.M303_2and3;
 
 import java.util.Arrays;
 

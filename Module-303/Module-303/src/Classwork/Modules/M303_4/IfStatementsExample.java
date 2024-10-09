@@ -1,4 +1,4 @@
-package M303_4;
+package Classwork.Modules.M303_4;
 
 public class IfStatementsExample {
     public static void main(String[] args) {

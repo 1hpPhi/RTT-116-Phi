@@ -1,4 +1,4 @@
-package M303_6;
+package Classwork.Modules.M303_6;
 
 public class DynamicArray {
 
