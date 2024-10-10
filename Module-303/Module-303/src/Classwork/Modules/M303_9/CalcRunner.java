@@ -25,7 +25,13 @@ public class CalcRunner {
 
         for (Shape s : shapes) {
             double area =  s.calculateArea();
-            System.out.println("The area for shape " + s.getName() + " is " + area);
+            double perimeter = s.calculatePerimeter();
+
+            if (s instanceof Triangle) {
+                System.out.println("s is of type Triangle");
+            }
+
+            System.out.println("The area for shape " + s.getName() + " is " + area + " and perimeter is " + perimeter);
         }
     }
 }

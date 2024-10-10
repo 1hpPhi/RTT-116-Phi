@@ -4,6 +4,10 @@ public abstract class Shape implements AreaCalculation {
 
     private String name;
 
+
+
+    public abstract double calculatePerimeter();
+
     public String getName() {
         return name;
     }
