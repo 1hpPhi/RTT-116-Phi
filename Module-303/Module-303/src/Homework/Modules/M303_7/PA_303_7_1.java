@@ -1,6 +1,7 @@
 package Homework.Modules.M303_7;
 
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class PA_303_7_1 {
     public static void main(String[] args) {
@@ -72,6 +73,29 @@ public class PA_303_7_1 {
         for (String str : array8) {
             System.out.println(str);
         }
+
+        //Task 9
+        int[] array9 = {4, 2, 9, 13, 1, 0};
+
+        Arrays.sort(array9);
+
+        System.out.println("Array in ascending order ");
+
+        for (int v = 0; v < array9.length; v++){
+            System.out.println(array9[v]);
+            if (v < array9.length - 1){
+                System.out.println(", ");
+            }
+        }
+        int under = array9[0];
+        int over = array9[array9.length - 1];
+
+        System.out.println("This is your biggest value " + over);
+        System.out.println("This is your smallest value " + under);
+
+        //Task 10
+
+
 
 
     }
