@@ -94,6 +94,34 @@ public class PA_303_7_1 {
         System.out.println("This is your smallest value " + under);
 
         //Task 10
+        Object[] array10 = new Object[5];
+        array10[0] = 42;                 // Integer
+        array10[1] = "hello";           // String
+        array10[2] = "world";           // String
+        array10[3] = "java";            // String
+        array10[4] = 3.14;              // Double
+
+        for (Object obj : array10) {
+            System.out.println(obj);
+        }
+
+        //Task 11
+        Scanner userInput = new Scanner(System.in);
+
+        System.out.println("How many favorite things do you have?");
+        int itemNum = userInput.nextInt();
+        userInput.nextLine();
+
+        String[] favoriteThings = new String[itemNum];
+
+        for (int i = 0; i < itemNum; i++) {
+            System.out.print("Enter your favorite thing: ");
+            favoriteThings[i] = userInput.nextLine();
+        }
+        System.out.println("These are your favorite things :");
+        for (String str : favoriteThings) {
+            System.out.println(str + " ");
+        }
 
 
 

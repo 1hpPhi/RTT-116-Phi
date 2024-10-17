@@ -1,4 +1,4 @@
-package Coffee_Shop;
+ package Coffee_Shop;
 
 
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class CoffeeShop {
         try {
             int selection = scanner.nextInt();
             return selection;
-        } catch (Exeception e) {
+        } catch (Exception e) {
             System.out.println("Invalid selection " + e.getMessage());
             return -1;
         } finally {
@@ -64,13 +64,28 @@ public class CoffeeShop {
         int selection = scanner.nextInt();
         scanner.nextLine();
 
-        if (selection >= 1 || selection <= products.size()) {
-            //add to the array/list (-1 to get the POSITION of the array at a 0 index)
-            Product p = products.get(selection - 1);
-            cart.add(p);
-            System.out.println("Added product " + p.getName() + " to the cart\n");
-            //ask for quantity of purchase
-            //make adjustment to quantity on product
+        if (isProductSelectionValid(selection)) {
+
+                System.out.println("Enter the quantity to buy: ");
+                int quantity = scanner.nextInt();
+                scanner.nextLine();
+            if ( quantity <= 0 ) {
+                System.out.println("You must buy at least 1.");
+            } else {
+
+
+                //add to the array/list (-1 to get the POSITION of the array at a 0 index)
+                Product p = products.get(selection - 1);
+
+                p.setQuantity(p.getQuantity() + quantity);
+
+                if (!existsInCart(p)) {
+                    cart.add(p);
+                }
+                    System.out.println("Added product " + p.getName() + " to the cart\n");
+                    //ask for quantity of purchase
+                    //make adjustment to quantity on product
+            }
         } else {
             System.out.println("Invalid item selection\n");
         }
@@ -78,12 +93,32 @@ public class CoffeeShop {
 
     }
 
+    private boolean isProductSelectionValid(int selectedProduct){
+        if (selectedProduct >= 1 || selectedProduct <= products.size()) {
+            return true;
+        }
+            return false;
+    }
+
+    private boolean existsInCart(Product purchase) {
+        boolean found = false;
+
+        for (Product item : cart){
+            if (item.getName().equals(purchase.getName())) {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
+    }
+
     public void checkout() {
         System.out.println("========== Items in your cart ==============");
         double subtotal = 0.0;
         //list the items in the cart
         for (Product item : cart) {
-            System.out.println(item.getName() + " \t $" + item.getPrice());
+            System.out.println(item.getName() + " \t " + item.getQuantity() + " \t $" + item.getPrice() + " \t $" + (item.getPrice() * item.getQuantity()));
             subtotal = subtotal + item.getPrice();
         }
         System.out.println("");
