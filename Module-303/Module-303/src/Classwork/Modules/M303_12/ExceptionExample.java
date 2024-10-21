@@ -14,6 +14,9 @@ public class ExceptionExample {
             String s1 = "abc";
             s1.charAt(10);
 
+            String s2 = null;
+            s2.toUpperCase();
+
             System.out.println("This is the last line of the try catch block and will only execute if no problem");
         } catch (ArithmeticException ae) {
             System.out.println("Divide by zero exception");

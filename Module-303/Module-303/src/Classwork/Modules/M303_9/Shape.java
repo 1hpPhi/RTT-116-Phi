@@ -2,8 +2,9 @@ package Classwork.Modules.M303_9;
 
 public abstract class Shape implements AreaCalculation {
 
+    protected double area;
+    protected double height;
     private String name;
-
 
 
     public abstract double calculatePerimeter();

@@ -1,11 +1,9 @@
  package Coffee_Shop;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-public class CoffeeShop {
+ public class CoffeeShop {
 
     //we will use this multiple times, so we can call it whenever we need it
     private Scanner scanner = new Scanner(System.in);
@@ -24,6 +22,19 @@ public class CoffeeShop {
         products.add(p3);
         Product p4 = new Product("Egg Sandwich", 6.49, 0);
         products.add(p4);
+        Product p5 = new Product("Ginger Cookie", 5.89, 0);
+        products.add(p5);
+
+        //sorting by price
+        List <Product> sorted = products.stream().sorted(Comparator.comparing(Product::getPrice)).toList();
+        //sorted.forEach(p -> System.out.println(p));
+
+        products.sort(Comparator.comparing(Product::getPrice).thenComparing(Product::getName));
+        sorted.forEach(p -> System.out.println(p));
+    }
+
+    private List<Product> sortByPrice(List<Product> source) {
+        return null;
     }
 
     private void printProductMenu() {
@@ -36,39 +47,44 @@ public class CoffeeShop {
         System.out.print("\n");
     }
 
-    private int printMainMenu() {
+    private int printMainMenu() throws InvalidInputException {
         System.out.println("1) See product menu");
         System.out.println("2) Purchase product");
         System.out.println("3) Checkout");
         System.out.println("4) Exit");
 
-        System.out.print("Enter selection: ");
+        return readNumberFromUser("\n Enter Selection : ");
+
+
+
+    }
+
+    private int readNumberFromUser(String question) throws InvalidInputException {
+        System.out.print(question);
 
         try {
             int selection = scanner.nextInt();
             return selection;
         } catch (Exception e) {
-            System.out.println("Invalid selection " + e.getMessage());
-            return -1;
+            System.out.println("\nInvalid selection\n");
+            throw new InputMismatchException("Invalid input: you must enter a valid number");
         } finally {
             scanner.nextLine();
         }
-
     }
 
-    public void addProductToCart() {
+    public void addProductToCart() throws InvalidInputException {
         //display items
         printProductMenu();
         //prompt the user to enter an item # to buy
-        System.out.print("Enter product number: ");
-        int selection = scanner.nextInt();
-        scanner.nextLine();
+
+        int selection = readNumberFromUser("Enter product number?");
 
         if (isProductSelectionValid(selection)) {
 
-                System.out.println("Enter the quantity to buy: ");
-                int quantity = scanner.nextInt();
-                scanner.nextLine();
+
+                int quantity = readNumberFromUser("Enter the quantity to buy: ");
+
             if ( quantity <= 0 ) {
                 System.out.println("You must buy at least 1.");
             } else {
@@ -131,7 +147,7 @@ public class CoffeeShop {
         System.out.println("Total price\t\t $" + total + "\n");
     }
 
-    public void start() {
+    public void start() throws InvalidInputException {
 
         //initialize the products for sale
         initProducts();
@@ -164,7 +180,7 @@ public class CoffeeShop {
         //printProductMenu();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidInputException {
         CoffeeShop cs = new CoffeeShop();
         cs.start();
     }
