@@ -30,10 +30,27 @@ import java.util.*;
         //sorted.forEach(p -> System.out.println(p));
 
         products.sort(Comparator.comparing(Product::getPrice).thenComparing(Product::getName));
-        sorted.forEach(p -> System.out.println(p));
+        sortByPrice(products);
     }
 
+
     private List<Product> sortByPrice(List<Product> source) {
+
+        for ( int outer = 0 ; outer < source.size() - 1 ; outer++) {
+            for ( int inner = outer + 1 ; inner < source.size() ; inner++ ) {
+                Product p0 = source.get(outer);
+                Product p1 = source.get(inner);
+
+                if ( p0.getPrice() > p1.getPrice()) {
+                    //Product temp = source.get(outer);
+                    source.set(inner, p0);
+                    source.set(outer, p1);
+                }
+            }
+        }
+
+        products.forEach(p -> System.out.println(p));
+
         return null;
     }
 
@@ -52,6 +69,7 @@ import java.util.*;
         System.out.println("2) Purchase product");
         System.out.println("3) Checkout");
         System.out.println("4) Exit");
+        System.out.println("5) Search for product");
 
         return readNumberFromUser("\n Enter Selection : ");
 
@@ -78,32 +96,37 @@ import java.util.*;
         printProductMenu();
         //prompt the user to enter an item # to buy
 
-        int selection = readNumberFromUser("Enter product number?");
+        try {
+            int selection = readNumberFromUser("Enter product number?");
 
-        if (isProductSelectionValid(selection)) {
+            if (isProductSelectionValid(selection)) {
 
 
                 int quantity = readNumberFromUser("Enter the quantity to buy: ");
 
-            if ( quantity <= 0 ) {
-                System.out.println("You must buy at least 1.");
-            } else {
+                if (quantity <= 0) {
+                    System.out.println("You must buy at least 1.");
+                } else {
 
 
-                //add to the array/list (-1 to get the POSITION of the array at a 0 index)
-                Product p = products.get(selection - 1);
+                    //add to the array/list (-1 to get the POSITION of the array at a 0 index)
+                    Product p = products.get(selection - 1);
 
-                p.setQuantity(p.getQuantity() + quantity);
+                    p.setQuantity(p.getQuantity() + quantity);
 
-                if (!existsInCart(p)) {
-                    cart.add(p);
-                }
+                    if (!existsInCart(p)) {
+                        cart.add(p);
+                    }
                     System.out.println("Added product " + p.getName() + " to the cart\n");
                     //ask for quantity of purchase
                     //make adjustment to quantity on product
+                }
+            } else {
+                System.out.println("Invalid item selection\n");
             }
-        } else {
-            System.out.println("Invalid item selection\n");
+        } catch (InvalidInputException iie) {
+            // maybe we dont care to do anything here ...
+            System.out.println("===== HERE =====");
         }
 
 
@@ -147,6 +170,25 @@ import java.util.*;
         System.out.println("Total price\t\t $" + total + "\n");
     }
 
+     public void productSearch() {
+         System.out.print("Enter a product name to search for: ");
+         String search = scanner.nextLine();
+
+         // this line of code filters the list of products based if the search input is in the string
+         List<Product> results = products.stream().filter(p -> p.getName().contains(search)).toList();
+
+         // to make it case insensitive then use toLowerCase or toUpperCase
+         // this is a common technique when you want to compare case insenstive
+         // List<Product> results = products.stream().filter(p -> p.getName().toLowerCase().contains(search.toLowerCase())).toList();
+
+         // print the result list using a lamda
+         if (results.isEmpty()) {
+             System.out.println("No results were found for input " + search + ".\n");
+         } else {
+             results.forEach(p -> System.out.println(p));
+         }
+     }
+
     public void start() throws InvalidInputException {
 
         //initialize the products for sale
@@ -170,6 +212,8 @@ import java.util.*;
                 //exit
                 System.out.println("Goodbye!");
                 System.exit(0);
+            } else if ( selection == 5 ) {
+                productSearch();
             } else {
                 System.out.println("Invalid selection\n");
             }
@@ -182,6 +226,11 @@ import java.util.*;
 
     public static void main(String[] args) throws InvalidInputException {
         CoffeeShop cs = new CoffeeShop();
-        cs.start();
+        try {
+            cs.start();
+        } catch (InvalidInputException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Ending program");
     }
 }
