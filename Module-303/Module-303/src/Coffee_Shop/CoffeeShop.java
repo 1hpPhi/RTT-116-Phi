@@ -1,9 +1,9 @@
- package Coffee_Shop;
+package Coffee_Shop;
 
 
 import java.util.*;
 
- public class CoffeeShop {
+public class CoffeeShop {
 
     //we will use this multiple times, so we can call it whenever we need it
     private Scanner scanner = new Scanner(System.in);
@@ -25,8 +25,14 @@ import java.util.*;
         Product p5 = new Product("Ginger Cookie", 5.89, 0);
         products.add(p5);
 
+        // load the products from the file
+        List<Product> loaded = new ProductLoader().loadProducts();
+
+        // add all the products we load to our product list
+        products.addAll(loaded);
+
         //sorting by price
-        List <Product> sorted = products.stream().sorted(Comparator.comparing(Product::getPrice)).toList();
+        List<Product> sorted = products.stream().sorted(Comparator.comparing(Product::getPrice)).toList();
         //sorted.forEach(p -> System.out.println(p));
 
         products.sort(Comparator.comparing(Product::getPrice).thenComparing(Product::getName));
@@ -36,12 +42,12 @@ import java.util.*;
 
     private List<Product> sortByPrice(List<Product> source) {
 
-        for ( int outer = 0 ; outer < source.size() - 1 ; outer++) {
-            for ( int inner = outer + 1 ; inner < source.size() ; inner++ ) {
+        for (int outer = 0; outer < source.size() - 1; outer++) {
+            for (int inner = outer + 1; inner < source.size(); inner++) {
                 Product p0 = source.get(outer);
                 Product p1 = source.get(inner);
 
-                if ( p0.getPrice() > p1.getPrice()) {
+                if (p0.getPrice() > p1.getPrice()) {
                     //Product temp = source.get(outer);
                     source.set(inner, p0);
                     source.set(outer, p1);
@@ -54,9 +60,9 @@ import java.util.*;
         return null;
     }
 
-    private void printProductMenu() {
-        for (int count = 0; count < products.size(); count++) {
-            Product p = products.get(count);
+    private void printProductMenu(List<Product> menuProducts) {
+        for (int count = 0; count < menuProducts.size(); count++) {
+            Product p = menuProducts.get(count);
             //count + 1 will be considered a math problem and increase the number by 1
             System.out.println((count + 1) + ") " + p.getName() + " \t " + p.getPrice());
         }
@@ -70,9 +76,11 @@ import java.util.*;
         System.out.println("3) Checkout");
         System.out.println("4) Exit");
         System.out.println("5) Search for product");
+        if (cart.size() > 0) {
+            System.out.println("6) Remove item from cart");
+        }
 
-        return readNumberFromUser("\n Enter Selection : ");
-
+        return readNumberFromUser("\nEnter Selection : ");
 
 
     }
@@ -93,11 +101,11 @@ import java.util.*;
 
     public void addProductToCart() throws InvalidInputException {
         //display items
-        printProductMenu();
+        printProductMenu(products);
         //prompt the user to enter an item # to buy
 
         try {
-            int selection = readNumberFromUser("Enter product number?");
+            int selection = readNumberFromUser("Enter product number? ");
 
             if (isProductSelectionValid(selection)) {
 
@@ -132,17 +140,17 @@ import java.util.*;
 
     }
 
-    private boolean isProductSelectionValid(int selectedProduct){
+    private boolean isProductSelectionValid(int selectedProduct) {
         if (selectedProduct >= 1 || selectedProduct <= products.size()) {
             return true;
         }
-            return false;
+        return false;
     }
 
     private boolean existsInCart(Product purchase) {
         boolean found = false;
 
-        for (Product item : cart){
+        for (Product item : cart) {
             if (item.getName().equals(purchase.getName())) {
                 found = true;
                 break;
@@ -170,24 +178,46 @@ import java.util.*;
         System.out.println("Total price\t\t $" + total + "\n");
     }
 
-     public void productSearch() {
-         System.out.print("Enter a product name to search for: ");
-         String search = scanner.nextLine();
+    public void productSearch() {
+        System.out.print("Enter a product name to search for: ");
+        String search = scanner.nextLine();
 
-         // this line of code filters the list of products based if the search input is in the string
-         List<Product> results = products.stream().filter(p -> p.getName().contains(search)).toList();
+        // this line of code filters the list of products based if the search input is in the string
+        List<Product> results = products.stream().filter(p -> p.getName().contains(search)).toList();
 
-         // to make it case insensitive then use toLowerCase or toUpperCase
-         // this is a common technique when you want to compare case insenstive
-         // List<Product> results = products.stream().filter(p -> p.getName().toLowerCase().contains(search.toLowerCase())).toList();
+        // to make it case insensitive then use toLowerCase or toUpperCase
+        // this is a common technique when you want to compare case insenstive
+        // List<Product> results = products.stream().filter(p -> p.getName().toLowerCase().contains(search.toLowerCase())).toList();
 
-         // print the result list using a lamda
-         if (results.isEmpty()) {
-             System.out.println("No results were found for input " + search + ".\n");
-         } else {
-             results.forEach(p -> System.out.println(p));
-         }
-     }
+        // print the result list using a lamda
+        if (results.isEmpty()) {
+            System.out.println("No results were found for input " + search + ".\n");
+        } else {
+            results.forEach(p -> System.out.println(p));
+        }
+    }
+
+    public void deleteProduct() {
+
+        System.out.print("==========DELETE PRODUCT ==============\n");
+        printProductMenu(cart);
+
+        try {
+            int selection = readNumberFromUser("Enter product number to remove: ");
+
+            int quantity = readNumberFromUser("Enter the quantity to remove: ");
+
+            Product remove = products.get(selection - 1);
+
+            if ( remove.getQuantity() < quantity ) {
+                remove.setQuantity(remove.getQuantity() - quantity);
+            } else {
+                cart.remove(selection - 1);
+            }
+        } catch (Exception e) {
+            System.out.println("\nInvalid product selection\n");
+        }
+    }
 
     public void start() throws InvalidInputException {
 
@@ -197,25 +227,33 @@ import java.util.*;
         //repeat until selection == 4 which will exit program
 
         while (true) {
-            //Show main menu and get user input
-            int selection = printMainMenu();
+            try {
+                //Show main menu and get user input
+                int selection = printMainMenu();
 
-            if (selection == 1) {
-                printProductMenu();
-            } else if (selection == 2) {
-                //purchase/add to cart
-                addProductToCart();
-            } else if (selection == 3) {
-                //checkout/payment
-                checkout();
-            } else if (selection == 4) {
-                //exit
-                System.out.println("Goodbye!");
-                System.exit(0);
-            } else if ( selection == 5 ) {
-                productSearch();
-            } else {
-                System.out.println("Invalid selection\n");
+                if (selection == 1) {
+                    printProductMenu(products);
+                } else if (selection == 2) {
+                    //purchase/add to cart
+                    addProductToCart();
+                } else if (selection == 3) {
+                    //checkout/payment
+                    checkout();
+                } else if (selection == 4) {
+                    //exit
+                    System.out.println("Goodbye!");
+                    System.exit(0);
+                } else if (selection == 5) {
+                    productSearch();
+                } else if (selection == 6) {
+                    if (cart.size() > 0) {
+                        deleteProduct();
+                    }
+                } else {
+                    System.out.println("Invalid selection\n");
+                }
+            } catch (Exception e) {
+                System.out.println("\nInvalid command entered\n");
             }
         }
 
