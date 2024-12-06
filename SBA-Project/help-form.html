@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); 
+    
+            
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const assistance = document.getElementById("assistance").value.trim();
+            const notes = document.getElementById("notes").value.trim();
+    
+            if (!name || !email || !assistance) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+    
+            const timestamp = new Date().toLocaleString();
+    
+            const submission = { name, email, assistance, notes, time: timestamp };
+    
+            const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
+    
+            submissions.push(submission);
+    
+            localStorage.setItem("submissions", JSON.stringify(submissions));
+    
+            alert("Thank you for submitting the form!");
+            window.location.href = "home.html";
+        }
+    </script>
+
+</head>
+<body>
+    <div class="form-container">
+        <h1>Help Request Form</h1>
+        <form onsubmit="handleSubmit(event)">
+
+            <label for="name">Full Name*</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email*</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+            <label for="assistance">What do you need help with?</label>
+            <select id="assistance" name="assistance" required>
+                <option value="" disabled selected>Select an option</option>
+                <option value="contacting_someone">Contacting Someone</option>
+                <option value="resume_building">Resume Building</option>
+                <option value="career_path">Help with Career Path</option>
+                <option value="faq">FAQ</option>
+            </select>
+
+            <label for="notes">Additional Notes (Optional)</label>
+            <textarea id="notes" name="notes" placeholder="Add any extra details or questions here..." rows="4"></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    
+</body>
+</html>

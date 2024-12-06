@@ -1,0 +1,206 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.grid-container {
+    display: grid;
+    gap: 20px;
+    width: 40%;
+    max-width: 1200px;
+    justify-content: center;
+}
+
+.col-6 {
+    grid-column: span 6;
+}
+
+.col-2 {
+    grid-column: span 2; 
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 3px dashed #d4a373;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #d4a373;
+    text-align: left;
+    max-width: 200px;
+    min-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+table th {
+    background-color: #bc6c25;
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+table td {
+    font-size: 1rem;
+    color: #333;
+}
+
+table tr:nth-child(even) {
+    background-color: #fffbe6;
+}
+
+table tr {
+    height: 50px;
+}
+
+table tbody {
+    max-height: 300px;
+    overflow-y: auto;
+    display: block;
+}
+
+table.empty {
+    height: 100px;
+    text-align: center;
+    font-size: 1rem;
+    color: #8c3c13;
+}
+
+table.empty td {
+    padding: 30px;
+}
+
+table.dashed {
+    border: 1px dashed #d4a373;
+}
+
+table:not(.empty) {
+    border: 3px solid #d4a373;
+}
+
+.discussion-board {
+    background: #faedcd;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 4px 4px 0px #d4a373, 8px 8px 0px #a2673f;
+    border: 3px dashed #d4a373;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+#discussionList {
+    margin-top: 20px;
+}
+
+.discussion {
+    border-bottom: 1px dashed #d4a373;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+}
+
+.discussion h3 {
+    margin: 0;
+    color: #6b4226;
+}
+
+.discussion p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.discussion span {
+    font-size: 0.8rem;
+    color: #8c3c13;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    background-color: #fefae0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.form-container {
+    background: #faedcd;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 4px 4px 0px #d4a373, 8px 8px 0px #a2673f;
+    max-width: 600px;
+    width: 100%;
+    border: 3px dashed #d4a373;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+    font-size: 1.75rem;
+    color: #6b4226;
+    font-style: italic;
+}
+
+label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #6b4226;
+    text-align: left;
+    margin-bottom: 5px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #d4a373;
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff;
+    background-color: #bc6c25;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8c3c13;
+}
+
+#welcomeImage {
+    width: 80%;
+    max-width: 500px;
+    margin-top: 20px;
+    display: block;
+    margin: 20px auto;
+    max-width: 50%;
+    height: auto;
+    display: none;
+}

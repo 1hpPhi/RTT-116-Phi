@@ -12,12 +12,22 @@ import lombok.*;
 @ToString
 public class Customer {
 
-    //@Id tells hibernate that this is a primary key for this entity
     @Id
-    //this tells hibernate that the database will auto increment the new id for a new record in the database
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "sales_rep_employee_id", nullable = false)
+    @ToString.Exclude
+    private Employee employee;
+
+    // now that we have the @ManyToOne mapping using the same column name for the @JoinColumn
+    // hibernate is confused as the colum sales_rep_employee_id is not ambigous to hibernate
+    // to solve this problem, we make this field read only by adding insertable = false and updateable = false
+    // TL;DR; - The foreign key must be marked as read only for hibernate
+    @Column(name = "sales_rep_employee_id", insertable = false, updatable = false)
+    private Integer salesRepEmployeeId;
 
     @Column(name = "customer_name")
     private String customerName;
@@ -37,11 +47,11 @@ public class Customer {
     @Column(name = "address_line2")
     private String addressLine2;
 
-    @Column(name = "city")
-    private String city;
-
     @Column(name = "state")
     private String state;
+
+    @Column(name = "city")
+    private String city;
 
     @Column(name = "postal_code")
     private String postalCode;
@@ -49,8 +59,7 @@ public class Customer {
     @Column(name = "country")
     private String country;
 
-    @Column(name = "sales_rep_employee_id")
-    private Integer salesRepEmployeeId;
+
 
     @Column(name = "credit_limit", columnDefinition = "DECIMAL")
     private Double creditLimit;

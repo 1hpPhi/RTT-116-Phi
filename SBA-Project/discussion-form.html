@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discussion Board</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); 
+
+            const title = document.getElementById("discussionTitle").value.trim();
+            const content = document.getElementById("discussionContent").value.trim();
+        
+            if (!title || !content) {
+                alert("Please fill in all required fields.");
+                return;
+            }
+        
+            const time = new Date().toLocaleString();
+        
+            const discussion = { title, content, time };
+        
+            const discussions = JSON.parse(localStorage.getItem("discussions")) || [];
+        
+            discussions.unshift(discussion); 
+        
+            if (discussions.length > 5) {
+                discussions.pop();
+            }
+        
+            localStorage.setItem("discussions", JSON.stringify(discussions));
+        
+            alert("Thank you for submitting the discussion!");
+            window.location.href = "home.html";
+        }
+    </script>
+    
+    </head>
+    <body>
+        <div class="container">
+            <div class="form-container">
+                <h1>Post a Discussion</h1>
+                <form onsubmit="handleSubmit(event)">
+                    
+                    <label for="discussionTitle">Title*</label>
+                    <input type="text" id="discussionTitle" name="discussionTitle" placeholder="Enter a title for the discussion" required>
+    
+                    <label for="discussionContent">Content*</label>
+                    <textarea id="discussionContent" name="discussionContent" placeholder="Enter the content of the discussion" rows="4" required></textarea>
+    
+                    <button type="submit">Post</button>
+                </form>
+            </div>
+        </div>
+    </body>
+    </html>
+    

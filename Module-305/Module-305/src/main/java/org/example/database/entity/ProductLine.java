@@ -10,7 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class ProductLines {
+public class ProductLine {
 
     //@Id tells hibernate that this is a primary key for this entity
     @Id

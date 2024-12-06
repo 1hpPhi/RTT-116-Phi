@@ -1,10 +1,17 @@
 package org.example.database.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "employees")
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 public class Employee {
 
     //@Id tells hibernate that this is a primary key for this entity
@@ -13,6 +20,11 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
+
+
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Customer> customers;
 
     @Column(name = "office_id")
     private int officeId;
@@ -29,128 +41,16 @@ public class Employee {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "reportsTo")
+    @Column(name = "reports_to")
     private int reportsTo;
 
-    @Column(name = "jobTitle")
+    @Column(name = "job_title")
     private String jobTitle;
 
-    @Column(name = "vacationHours")
+    @Column(name = "vacation_hours")
     private int vacationHours;
 
-    @Column(name = "profileImageUrl")
+    @Column(name = "profile_image_url")
     private String profileImageUrl;
 
-    public Employee() {
-
-    }
-
-    public Employee(int id, int officeId, String lastname, String firstname, String extension, String email, int reportsTo, String jobTitle, int vacationHours, String profileImageUrl) {
-        this.id = id;
-        this.officeId = officeId;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.extension = extension;
-        this.email = email;
-        this.reportsTo = reportsTo;
-        this.jobTitle = jobTitle;
-        this.vacationHours = vacationHours;
-        this.profileImageUrl = profileImageUrl;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getOfficeId() {
-        return officeId;
-    }
-
-    public void setOfficeId(int officeId) {
-        this.officeId = officeId;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public int getReportsTo() {
-        return reportsTo;
-    }
-
-    public void setReportsTo(int reportsTo) {
-        this.reportsTo = reportsTo;
-    }
-
-    public String getJobTitle() {
-        return jobTitle;
-    }
-
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
-
-    public int getVacationHours() {
-        return vacationHours;
-    }
-
-    public void setVacationHours(int vacationHours) {
-        this.vacationHours = vacationHours;
-    }
-
-    public String getProfileImageUrl() {
-        return profileImageUrl;
-    }
-
-    public void setProfileImageUrl(String profileImageUrl) {
-        this.profileImageUrl = profileImageUrl;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", officeId=" + officeId +
-                ", lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", extension='" + extension + '\'' +
-                ", email='" + email + '\'' +
-                ", reportsTo=" + reportsTo +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", vacationHours=" + vacationHours +
-                ", profileImageUrl='" + profileImageUrl + '\'' +
-                '}';
-    }
 }

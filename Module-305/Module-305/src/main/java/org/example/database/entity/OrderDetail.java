@@ -33,4 +33,10 @@ public class OrderDetail {
 
     @Column(name = "order_line_number", columnDefinition = "SMALLINT")
     private int orderLineNumber;
+
+    public void setOrder(Order o) {
+    }
+
+    public void setProduct(Product p) {
+    }
 }

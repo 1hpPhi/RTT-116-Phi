@@ -27,7 +27,7 @@ public class Product {
     private String productName;
 
     @Column(name = "productline_id")
-    private int productlineId;
+    private int productLineId;
 
     @Column(name = "product_scale")
     private String productScale;
