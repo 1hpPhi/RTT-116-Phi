@@ -21,7 +21,27 @@
             document.getElementById('submissionTable').style.display = 'none';
         }
 
+        function toggleVisibility() {
+            const uiCheckbox = document.getElementById('uiCheckbox').checked;
+            const helpFormCheckbox = document.getElementById('helpFormCheckbox').checked;
+            const discussionCheckbox = document.getElementById('discussionCheckbox').checked;
+
+            const buttons = document.querySelectorAll('.col-10 > button');
+            buttons.forEach(button => button.style.display = uiCheckbox ? 'none' : 'inline-block');
+
+            document.getElementById('submissionTable').classList.toggle('hidden', helpFormCheckbox);
+
+            document.querySelector('.discussion-board').classList.toggle('hidden', discussionCheckbox);
+
+            const allChecked = uiCheckbox && helpFormCheckbox && discussionCheckbox;
+            document.querySelector('.placeholder').style.display = allChecked ? 'block' : 'none';
+        }
+
         window.onload = function() {
+    document.getElementById('uiCheckbox').checked = false;
+    document.getElementById('helpFormCheckbox').checked = false;
+    document.getElementById('discussionCheckbox').checked = false;
+    
     const submissions = JSON.parse(localStorage.getItem("submissions")) || [];
     const tableBody = document.querySelector("#submissionTable tbody");
     const table = document.getElementById("submissionTable");
@@ -77,6 +97,12 @@
     </script>
 </head>
 <body>
+    <div class="controls">
+        <label><input type="checkbox" id="uiCheckbox" onchange="toggleVisibility()"> Toggle UI</label><br>
+        <label><input type="checkbox" id="helpFormCheckbox" onchange="toggleVisibility()"> Toggle Help Form Table</label><br>
+        <label><input type="checkbox" id="discussionCheckbox" onchange="toggleVisibility()"> Toggle Discussion Board</label>
+    </div>
+
     <div class="container">
         <div class="grid-container">
             <div class="col-10">

@@ -15,9 +15,26 @@
             const email = document.getElementById("email").value.trim();
             const assistance = document.getElementById("assistance").value.trim();
             const notes = document.getElementById("notes").value.trim();
+            const humanOptions = document.getElementsByName("confirmHuman");
+
+            let isHumanSelected = false;
+            let isHuman = false;
+
+            for (let i = 0; i < humanOptions.length; i++) {
+                if (humanOptions[i].checked) {
+                    isHumanSelected = true;
+                    isHuman = humanOptions[i].value === "human";
+                    break;
+                }
+            }
     
             if (!name || !email || !assistance) {
                 alert("Please fill in all required fields.");
+                return;
+            }
+
+            if (!isHuman) {
+                alert("We cannot process information from non-human entities. Submission canceled.");
                 return;
             }
     
@@ -34,6 +51,7 @@
             alert("Thank you for submitting the form!");
             window.location.href = "home.html";
         }
+        
     </script>
 
 </head>
@@ -60,10 +78,15 @@
             <label for="notes">Additional Notes (Optional)</label>
             <textarea id="notes" name="notes" placeholder="Add any extra details or questions here..." rows="4"></textarea>
 
+            <input type="radio" name="confirmHuman" value="human">I am human
+            <input type="radio" name="confirmHuman" value="not_human">I am NOT human
+
+            <br><br>
             <button type="submit">Submit</button>
         </form>
     </div>
 
-    
+
 </body>
 </html>
+
