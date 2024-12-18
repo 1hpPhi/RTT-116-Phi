@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Employee {
 
     //@Id tells hibernate that this is a primary key for this entity

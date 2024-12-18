@@ -13,7 +13,7 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    private CustomerDAO customerDAO;
+    private CustomerDAO customerDao;
 
     @GetMapping("/index")
     public ModelAndView index() {
@@ -22,7 +22,7 @@ public class IndexController {
         // this is our index.jsp
         response.setViewName("index");
 
-        List<Customer> firstNames = customerDAO.findByFirstName("Alexander");
+        List<Customer> firstNames = customerDao.findByFirstName("Alexander");
         for (Customer c : firstNames) {
             System.out.println(c.toString());
         }
