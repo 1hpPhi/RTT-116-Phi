@@ -148,7 +148,10 @@
                 <div class="col-sm-10 col-lg-6">
                     <select id="employeeId" name="employeeId">
                         <c:forEach var="employee" items="${employeesKey}">
-                            <option value="${employee.id}">${employee.firstname} ${employee.lastname}</option>
+                            <option value="${employee.id}"
+                            <c:if test="${form.employeeId eq employee.id}">selected
+                            </c:if>
+                            ${employee.firstname} ${employee.lastname}</option>
                         </c:forEach>
                     </select>
                 </div>

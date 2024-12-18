@@ -114,6 +114,7 @@ public class CustomerController {
         form.setPhone(customer.getPhone());
         form.setCity(customer.getCity());
         form.setCountry(customer.getCountry());
+        form.setEmployeeId(customer.getId());
 
         response.addObject("form", form);
 
