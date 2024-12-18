@@ -26,7 +26,7 @@ public class Employee {
     private List<Customer> customers;
 
     @Column(name = "office_id")
-    private int officeId;
+    private Integer officeId;
 
     @Column(name = "lastname")
     private String lastname;
@@ -41,13 +41,13 @@ public class Employee {
     private String email;
 
     @Column(name = "reports_to")
-    private int reportsTo;
+    private Integer reportsTo;
 
     @Column(name = "job_title")
     private String jobTitle;
 
     @Column(name = "vacation_hours")
-    private int vacationHours;
+    private Integer vacationHours;
 
     @Column(name = "profile_image_url")
     private String profileImageUrl;

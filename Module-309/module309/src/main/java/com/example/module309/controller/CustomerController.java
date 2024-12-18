@@ -77,6 +77,9 @@ public class CustomerController {
         // this is the page primer for create
         ModelAndView response = new ModelAndView();
 
+        List<Employee> employees = employeeDAO.findAllEmployees();
+        response.addObject("employeesKey", employees);
+
         LOG.debug("DEBUG LEVEL");
         LOG.info("INFO LEVEL");
         LOG.warn("WARNING LEVEL");
@@ -90,6 +93,10 @@ public class CustomerController {
     @GetMapping("/customer/edit/{customerId}")
     public ModelAndView editCustomer(@PathVariable Integer customerId) {
         ModelAndView response = new ModelAndView();
+
+        List<Employee> employees = employeeDAO.findAllEmployees();
+        response.addObject("employeesKey", employees);
+
         // this is the page primer for edit
         response.setViewName("customer/create");
 
@@ -119,7 +126,6 @@ public class CustomerController {
         ModelAndView response = new ModelAndView();
 
 
-
         // manually do some validations here in the controller
 
         LOG.debug(form.toString());
@@ -131,12 +137,15 @@ public class CustomerController {
             response.setViewName("customer/create");
             response.addObject("bindingResult", bindingResult);
             response.addObject("form", form);
+
+            List<Employee> employees = employeeDAO.findAllEmployees();
+            response.addObject("employeesKey", employees);
         } else {
             // when this is a create the id in the form will be null
             // when it is an edit the id in the form will be populated with the PK to edit
             // in either case we can try to query the database and its either found or not
-            // if its not found in the database its a create
-            // if it is found in the database then its an edit
+            // if it's not found in the database it's a create
+            // if it is found in the database then it's an edit
             Customer customer = customerDao.findById(form.getId());
             if ( customer == null ) {
                 customer = new Customer();
@@ -150,14 +159,14 @@ public class CustomerController {
             customer.setCity(form.getCity());
             customer.setCountry(form.getCountry());
 
-            Employee employee = employeeDAO.findById(1056);
+            Employee employee = employeeDAO.findById(form.getEmployeeId());
             customer.setEmployee(employee);
 
             customerDao.save(customer);
 
             LOG.debug("============= SAVING CUSTOMER " + customer.getId());
 
-            // in either case ... create or edit .. I now want to redirect to the edit url
+            // in either case ... create or edit ... I now want to redirect to the edit url
             response.setViewName("redirect:/customer/edit/" + customer.getId() );
 
         }

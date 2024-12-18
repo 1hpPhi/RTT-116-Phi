@@ -54,4 +54,7 @@ public class CreateCustomerFormBean {
     private String country;
 
 
+    private Integer employeeId;
+
+
 }
