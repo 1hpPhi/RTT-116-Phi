@@ -49,7 +49,7 @@ public class LoginController {
     }
 
     // WE ARE DOING THIS AS A POST NOT A GET
-    @PostMapping("/login/signupSubmit")
+    //@PostMapping("/login/signupSubmit")
     public ModelAndView signupSubmit(@Valid SignupFormBean form, BindingResult bindingResult) {
         ModelAndView response = new ModelAndView();
 

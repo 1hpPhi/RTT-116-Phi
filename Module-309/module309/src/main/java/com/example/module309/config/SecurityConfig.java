@@ -2,7 +2,7 @@ package com.example.module309.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +12,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity
 public class SecurityConfig {
 
     // authentication - the act of checking the users credentials .. meaning is the username and password correct
@@ -69,6 +69,9 @@ public class SecurityConfig {
                 .logoutSuccessUrl("/")
                 // extra security and delete these cookies when logging out
                 .deleteCookies("username", "JSESSIONID"));
+
+        http.exceptionHandling(exception -> exception
+                .accessDeniedPage("/404"));
 
 
         return http.build();
